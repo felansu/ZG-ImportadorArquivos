@@ -6,17 +6,16 @@ package br.com.zeroglosa
 class ImportadorArquivo {
 
     List<Map> obterRegistros(File arquivo, String nomeLayout) {
-        if (!nomeLayout) {
+        if (!nomeLayout || arquivo.text.empty) {
             throw new IllegalArgumentException()
         }
 
-        if (arquivo.text.empty) {
-            throw new IllegalArgumentException()
-        }
+        LeitorBuilder leitorBuilder = new LeitorBuilder()
+        Leitor leitorConteudo = leitorBuilder.build(arquivo)
 
-        List<Map> dadosArquivo = new ArrayList<Map>()
+        InterpretadorBuilder builder = new InterpretadorBuilder()
+        Interpretador interpretador = builder.build(nomeLayout)
+        interpretador.getRegistros(leitorConteudo.getConteudo(arquivo))
 
-        dadosArquivo << [tipo: 'guia', senha: '4469552', matricula: '967613', nome: 'DIVANI FLORENCIO LACERDA',
-                        dataAtendimento: 21/03/2015]
     }
 }

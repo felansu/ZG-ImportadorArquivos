@@ -29,21 +29,21 @@ class ImportadorArquivoTest extends GroovyTestCase {
     }
 
     void "test Arquivo 'txt' do tipo Pagamento retorna lista de mapa"() {
-        List<Map> dadosArquivo = importadorArquivo.obterRegistros(obtemArquivo('pagamento.txt'), "PAG")
+        List<Map> dadosArquivo = importadorArquivo.obterRegistros(obtemArquivo('pagamento.txt'), "fibo-layout")
         assertNotNull dadosArquivo
     }
 
     void "test arquivo sem conteudo lança exceção"(){
         shouldFail(IllegalArgumentException) {
-            importadorArquivo.obterRegistros(obtemArquivo('pagamentoVazio.txt'), "PAG")
+            importadorArquivo.obterRegistros(obtemArquivo('pagamentoVazio.txt'), "fibo-layout")
         }
     }
 
     void "test Layout de pagamento minimo retorna registros"(){
-        List<Map> valorEsperado= [[tipo: 'guia', senha: '4469552', matricula: '967613', nome: 'DIVANI FLORENCIO LACERDA',
-        dataAtendimento: 21/03/2015]]
+        List<Map> valorEsperado= [[tipo: 'guia', Senha: '4469552', Matrícula: '967613', Nome: 'DIVANI FLORENCIO LACERDA',
+                                   'Data de atendimento': '21/03/2015']]
 
-        List<Map> retorno = importadorArquivo.obterRegistros(obtemArquivo('pagamentoUmaLinha.txt'), "PAG")
+        List<Map> retorno = importadorArquivo.obterRegistros(obtemArquivo('pagamentoUmaLinha.txt'), "fibo-layout")
         assertEquals(valorEsperado,retorno)
 
     }

@@ -29,8 +29,8 @@ class InterpretadorFiboLayoutTest extends GroovyTestCase{
     }
 
     void 'test conteudo fibo layout minimo retorna registros'() {
-        List<Map> valorEsperado = [[tipo: 'guia', senha: '4469552', matricula: '967613', nome: 'DIVANI FLORENCIO LACERDA',
-                                   dataAtendimento: 21/03/2015]]
+        List<Map> valorEsperado = [[tipo: 'guia', Senha: '4469552', Matrícula: '967613', Nome: 'DIVANI FLORENCIO LACERDA',
+                                   'Data de atendimento': '21/03/2015']]
         File arquivo = obtemArquivo("pagamentoUmaLinha.txt")
 
         List<Map> retorno = interpretadorFiboLayout.getRegistros(arquivo.text)
