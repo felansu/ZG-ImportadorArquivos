@@ -1,45 +1,50 @@
 package br.com.zeroglosa
 
+import java.util.regex.Pattern
+
 /**
  * Created by felansu on 6/18/15.
  */
 class InterpretadorFiboLayout implements Interpretador {
+
+    private final String CABECALHO = /(?<=#).*/
+    private final String VALOR = /^[^#].+$/
+
+    private Map<String, List<String>> obtenhaTiposDeRegistro(List<List<String>> cabecalhoTokenized) {
+        Map<String, List<String>> tiposDeRegistros = [:]
+        cabecalhoTokenized.each {
+            def key = it[0]
+            it[0] = 'tipo'
+            tiposDeRegistros[key] = it
+        }
+        tiposDeRegistros
+    }
+
+    private List<List<String>> filtraConteudo(String conteudo, String regex) {
+        conteudo.readLines().collect{
+            it.find(regex)
+        }.grep().collect{ it.split(/\|/) }
+    }
+
+    private List<Map<String, String>> criaMapaDeRegistros(List<List<String>> valores, Map<String, List<String>> tiposDeRegistro) {
+        valores.collect { valor ->
+            def mapaRetorno = [:]
+            def keys = tiposDeRegistro[valor[0]]
+            keys.eachWithIndex { item, idx ->
+                mapaRetorno[item] =  valor[idx]
+            }
+            mapaRetorno
+        }
+    }
+
     @Override
     List<Map> getRegistros(String conteudo) {
-        //TODO A gente parou por aqui
         if (conteudo) {
-
-
-            def tiposDeRegistros = [:]
-
-// Retornamos um array de strings que define o layout
-            conteudo.findAll(/(?<=#).*?\n/).collect {
-                it = it[0..-2]
-                it.tokenize('|')
-            }.each {
-                def key = it[0]
-                it[0] = 'tipo'
-                tiposDeRegistros[key] = it
-            }
-
-// Pegamos os registros, definimos um mapa onde preenchemos as Keys com
-            def valoresDoRegistro = conteudo.split('\n').findAll {
-                it.matches('^[^#]+$')
-            }.collect {
-                it = it.tokenize('|')
-                def mapaRetorno = [:]
-                def keys = tiposDeRegistros[it[0]]
-
-                it.eachWithIndex { item, idx ->
-                    mapaRetorno[keys[idx]] = item
-                }
-                mapaRetorno
-            }
-
-
-
-            return valoresDoRegistro
+            List<List<String>> cabecalho = filtraConteudo(conteudo, CABECALHO)
+            List<List<String>> valores = filtraConteudo(conteudo, VALOR)
+            criaMapaDeRegistros(valores, obtenhaTiposDeRegistro(cabecalho))
+        } else {
+            throw new IllegalArgumentException()
         }
-        throw new IllegalArgumentException()
     }
 }

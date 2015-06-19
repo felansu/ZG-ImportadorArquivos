@@ -37,4 +37,13 @@ class InterpretadorFiboLayoutTest extends GroovyTestCase{
         assertEquals(valorEsperado, retorno)
     }
 
+    void 'test item "nome" com valor vazio retorna o campo "nome" vazio'() {
+        List<Map> valorEsperado = [[tipo: 'guia', Senha: '4469552', Matrícula: '967613', Nome: '',
+                                    'Data de atendimento': '21/03/2015']]
+        File arquivo = obtemArquivo("pagamentoNomeVazio.txt")
+
+        List<Map> retorno = interpretadorFiboLayout.getRegistros(arquivo.text)
+        assertEquals(valorEsperado, retorno)
+    }
+
 }
