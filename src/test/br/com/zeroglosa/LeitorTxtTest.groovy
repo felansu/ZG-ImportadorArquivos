@@ -1,13 +1,10 @@
 package br.com.zeroglosa
 
-/**
- * Created by felansu on 6/18/15.
- */
 class LeitorTxtTest extends GroovyTestCase{
 
-    LeitorTxt leitorTxt = new LeitorTxt()
-    File arquivoTxt = new File("/home/felansu/IdeaProjects/importadordearquivos/src/pagamentoUmaLinha.txt")
-    File arquivoPdf = new File("/home/felansu/IdeaProjects/importadordearquivos/src/main/br/com/zeroglosa/LeitorTxt.groovy")
+    private LeitorTxt leitorTxt = new LeitorTxt()
+    private final File arquivoTxt = new File("src/pagamentoUmaLinha.txt")
+    private final File arquivoPdf = new File("src/main/br/com/zeroglosa/LeitorTxt.groovy")
 
     void 'test leitor txt retorna conteudo txt'() {
         assertEquals arquivoTxt.text , leitorTxt.getConteudo(arquivoTxt)

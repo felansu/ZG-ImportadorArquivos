@@ -1,11 +1,11 @@
 package br.com.zeroglosa
 
-/**
- * Created by felansu on 6/18/15.
- */
 class InterpretadorBuilderTest extends GroovyTestCase {
 
-    InterpretadorBuilder interpretadorBuilder
+    private final String LAYOUT_DIFERENTE = 'layout-diferente'
+    private final String FIBO_LAYOUT = 'fibo-layout'
+
+    private InterpretadorBuilder interpretadorBuilder
 
     void setUp() {
         interpretadorBuilder = new InterpretadorBuilder()
@@ -19,12 +19,11 @@ class InterpretadorBuilderTest extends GroovyTestCase {
 
     void 'test Layout nao conhecido lanca excecao'() {
         shouldFail(IllegalArgumentException) {
-           interpretadorBuilder.build("layout-diferente")
+           interpretadorBuilder.build(LAYOUT_DIFERENTE)
         }
     }
 
     void 'test fibo layout retorna interpretador fibo layout'() {
-        assert interpretadorBuilder.build("fibo-layout") instanceof InterpretadorFiboLayout
+        assert interpretadorBuilder.build(FIBO_LAYOUT) instanceof InterpretadorFiboLayout
     }
-
 }
